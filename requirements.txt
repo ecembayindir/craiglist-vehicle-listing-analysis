@@ -1,0 +1,13 @@
+streamlit
+pandas
+numpy
+seaborn
+matplotlib
+plotly
+folium
+streamlit-folium
+wordcloud
+beautifulsoup4
+requests
+nltk
+unidecode
