@@ -12,3 +12,4 @@ requests
 nltk
 unidecode
 scipy
+gdown
