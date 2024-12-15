@@ -12,3 +12,5 @@ requests
 nltk
 unidecode
 scipy
+gdown
+statsmodels
