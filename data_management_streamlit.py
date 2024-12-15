@@ -113,9 +113,17 @@ def download_dataset_from_drive():
 
 @st.cache_data
 def load_data():
-    """Load and preprocess the dataset"""
-    file_path = download_dataset_from_drive()
-    df = pd.read_csv(file_path)
+    """Download and load dataset."""
+    # Retrieve the dataset URL from Streamlit Secrets
+    url = st.secrets["general"]["dataset_url"]
+    output_path = "vehicles.csv"
+
+    # Download the file using gdown
+    gdown.download(url, output_path, quiet=False)
+
+    # Read the dataset
+    df = pd.read_csv(output_path)
+    return df
 
     # Convert posting_date to datetime without specifying format
     df['posting_date'] = pd.to_datetime(df['posting_date'], errors='coerce', utc=True)
