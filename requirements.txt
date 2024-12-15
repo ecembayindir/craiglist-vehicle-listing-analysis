@@ -11,5 +11,4 @@ beautifulsoup4
 requests
 nltk
 unidecode
-gdown
 scipy
