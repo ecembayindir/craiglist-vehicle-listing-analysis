@@ -16,8 +16,6 @@ import re
 from nltk.stem import SnowballStemmer
 from nltk.corpus import stopwords
 from unidecode import unidecode
-import gdown
-import os
 
 # Page configuration
 st.set_page_config(
@@ -97,33 +95,11 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-def download_dataset_from_drive():
-    """Download dataset from Google Drive"""
-    # Google Drive file link
-    url = "https://drive.google.com/uc?id=1AEVMsWM5CD9Pz-EIOfNP0NoFmz-gYJfK&export=download"
-    output_path = "data/vehicles.csv"
-
-    # Create a directory if it doesn't exist
-    os.makedirs("data", exist_ok=True)
-
-    # Download the file
-    gdown.download(url, output_path, quiet=False)
-
-    return output_path
-
 @st.cache_data
-def load_data():
-    """Download and load dataset."""
-    # Retrieve the dataset URL from Streamlit Secrets
-    url = st.secrets["general"]["dataset_url"]
-    output_path = "vehicles.csv"
-
-    # Download the file using gdown
-    gdown.download(url, output_path, quiet=False)
-
-    # Read the dataset
-    df = pd.read_csv(output_path)
-    return df
+def load_and_preprocess_data():
+    """Load and preprocess the dataset"""
+    data_path = "vehicles_small.csv"
+    df = pd.read_csv(data_path)
 
     # Convert posting_date to datetime without specifying format
     df['posting_date'] = pd.to_datetime(df['posting_date'], errors='coerce', utc=True)
@@ -146,6 +122,7 @@ def load_data():
     }, inplace=True)
 
     return df
+
 
 def create_derived_variables(df):
     """Create derived variables"""
@@ -874,7 +851,7 @@ def main():
     )
 
     # Load data
-    df = load_data()
+    df = load_and_preprocess_data()
     df_with_new_variables = create_derived_variables(df)
 
     if section == "Dataset Overview":
